@@ -1,0 +1,94 @@
+= Service Catalog : Use case 1
+
+Authors: Supply the name of the person who initially documented this use case.
+
+Created Date : Enter the date on which the use case was initially documented.
+
+. Use case Id
+
+  Give each use case a unique numeric identifier, in hierarchical form: X.Y. Related use cases can be grouped in the hierarchy. Functional requirements can be traced back to a labeled use case.
+
+
+. Use case name
+
+  State a concise, results-oriented name for the use case. These reflect the tasks the user needs to be able to accomplish using the system.
+  Include an action verb and a noun.
+  Some examples:
+
+  •	View part number information.
+
+  •	Manually mark hypertext source and establish link to target.
+
+  •	Place an order for a CD with the updated software version.
+
+. Brief id
+
+  Link to the brief, request it is related.
+
+. Priority
+
+  Indicate the relative priority of implementing the functionality required to allow this use case to be executed.
+
+. Description
+
+  Describe the purpose, objectives of this use case like also the solution that it will resolve.
+  Include also a high-level description of the sequence of actions and the outcome of executing the use case.
+
+. Actors
+
+  An actor is a person or other entity external to the software system being specified who interacts with the system and performs use cases to accomplish tasks.
+  Different actors often correspond to different user classes, or roles, identified from the customer community that will use the product.
+  Name the actor(s) that will be performing this use case.
+
+. Pre-conditions
+
+  List any activities that must take place, or any conditions that must be true, before the use case can be started.
+
+    .. Number each precondition. Examples:
+    .. User’s identity has been authenticated.
+    .. User’s computer has sufficient free memory available to launch task.
+
+. Basic Flow
+
+|===
+|Step |Action
+
+|s
+|User starts to encode the data
+
+|1
+|He clicks on the button
+|===
+
+. Extensions Flow
+
+  Document other, legitimate usage scenarios that can take place within this use case separately in this section.
+  State the alternative course, and describe any differences in the sequence of steps that take place.
+  Number each alternative course using the step from the normal course of events.
+  If the step is big enough to warrant it's own use case, give the number in the step.
+
+  2.a. There is no mustard
+  2.a.1 Look in cupboard for more mustard
+
+  3.b There is no ketchup
+  3.b.1 Buy ketchup ( Case ID: 1.5 )
+
+. Includes
+
+  List any other use cases that are included (“called”) by this use case
+
+. Notes and issues
+
+  List any additional comments about this use case or any remaining open issues or TBDs (To Be Determined) that must be resolved. Identify who will resolve each issue, the due date, and what the resolution ultimately is.
+
+. Questions
+
+|===
+|Question |Answer
+| What do I like to eat?
+| 1. Eggs
+
+2. Beans 
+
+3. Spaghetti
+
