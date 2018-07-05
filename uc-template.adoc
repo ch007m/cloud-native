@@ -1,4 +1,4 @@
-= Service Catalog : Use case 1
+= [domain] : Use case [number] - short title
 
 Authors: Supply the name of the person who initially documented this use case.
 
