@@ -8,6 +8,7 @@ Created Date : Enter the date on which the use case was initially documented.
 
 Give each use case a unique numeric identifier, in hierarchical form: X.Y. Related use cases can be grouped in the hierarchy. Functional requirements can be traced back to a labeled use case.
 
+[start=2]
 . Use case name
 
 State a concise, results-oriented name for the use case. These reflect the tasks the user needs to be able to accomplish using the system.
@@ -20,25 +21,30 @@ Some examples:
 
 • Place an order for a CD with the updated software version.
 
+[start=3]
 . Brief id
 
 Link to the brief, request it is related.
 
+[start=4]
 . Priority
 
 Indicate the relative priority of implementing the functionality required to allow this use case to be executed.
 
+[start=5]
 . Description
 
 Describe the purpose, objectives of this use case like also the solution that it will resolve.
- Include also a high-level description of the sequence of actions and the outcome of executing the use case.
+Include also a high-level description of the sequence of actions and the outcome of executing the use case.
 
+[start=6]
 . Actors
 
 An actor is a person or other entity external to the software system being specified who interacts with the system and performs use cases to accomplish tasks.
 Different actors often correspond to different user classes, or roles, identified from the customer community that will use the product.
 Name the actor(s) that will be performing this use case.
 
+[start=7]
 . Pre-conditions
 
 List any activities that must take place, or any conditions that must be true, before the use case can be started.
@@ -47,6 +53,7 @@ List any activities that must take place, or any conditions that must be true, b
 .. User’s identity has been authenticated.
 .. User’s computer has sufficient free memory available to launch task.
 
+[start=8]
 . Basic Flow
 
 |===
@@ -59,6 +66,7 @@ List any activities that must take place, or any conditions that must be true, b
 |He clicks on the button
 |===
 
+[start=9]
 . Extensions Flow
 
 Document other, legitimate usage scenarios that can take place within this use case separately in this section.
@@ -72,23 +80,26 @@ If the step is big enough to warrant it's own use case, give the number in the s
 3.b There is no ketchup
 3.b.1 Buy ketchup ( Case ID: 1.5 )
 
+[start=10]
 . Includes
 
 List any other use cases that are included (“called”) by this use case
 
+[start=11]
 . Notes and issues
 
 List any additional comments about this use case or any remaining open issues or TBDs (To Be Determined) that must be resolved.
 Identify who will resolve each issue, the due date, and what the resolution ultimately is.
 
+[start=12]
 . Questions
 
-|===
-|Question |Answer
-| What do I like to eat?
-| 1. Eggs
-
-2. Beans 
-
+[qanda]
+What do I like to eat?::
+1. Eggs
+2. Beans
 3. Spaghetti
+
+What is Asciidoctor?::
+An implementation of the AsciiDoc processor in Ruby.
 
