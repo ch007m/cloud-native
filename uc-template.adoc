@@ -97,9 +97,9 @@ Identify who will resolve each issue, the due date, and what the resolution ulti
 
 [qanda]
 What do I like to eat?::
-1. Eggs
-2. Beans
-3. Spaghetti
+* Eggs
+* Beans
+* Spaghetti
 
 What is Asciidoctor?::
 An implementation of the AsciiDoc processor in Ruby.
