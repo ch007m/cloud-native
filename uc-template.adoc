@@ -23,7 +23,7 @@ Some examples:
 • Place an order for a CD with the updated software version.
 
 [start=3]
-. *Brief id*
+. *Brief id - optional*
 
 Link to the brief, request it is related.
 
@@ -82,25 +82,7 @@ If the step is big enough to warrant it's own use case, give the number in the s
 3.b.1 Buy ketchup ( Case ID: 1.5 )
 
 [start=10]
-. *Includes*
+. *Includes - optional*
 
 List any other use cases that are included (“called”) by this use case
-
-[start=11]
-. *Notes and issues*
-
-List any additional comments about this use case or any remaining open issues or TBDs (To Be Determined) that must be resolved.
-Identify who will resolve each issue, the due date, and what the resolution ultimately is.
-
-[start=12]
-. *Questions*
-
-[qanda]
-What do I like to eat?::
-* Eggs
-* Beans
-* Spaghetti
-
-What is Asciidoctor?::
-An implementation of the AsciiDoc processor in Ruby.
 
