@@ -16,7 +16,9 @@ minikube start --memory 4056 --kubernetes-version v1.11.0
 Define ClusterRolebinding to install helm tiller
 ================================================
 ```
-kubectl create clusterrolebinding tiller-cluster-admin \\n    --clusterrole=cluster-admin \\n    --serviceaccount=kube-system:default
+kubectl create clusterrolebinding tiller-cluster-admin \
+  --clusterrole=cluster-admin \
+  --serviceaccount=kube-system:default
 ```
 
 Install helm
