@@ -10,7 +10,7 @@ brew install kubernetes-helm
 Start minikube
 ==============
 ```
-minikube start --memory 4056 --kubernetes-version v1.11.0
+minikube start --memory 4056 --kubernetes-version v1.11.0 --vm-driver hyperkit | xhyve
 ```
 
 Define ClusterRolebinding to install helm tiller
