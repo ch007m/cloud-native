@@ -31,7 +31,7 @@ Get and install helm chart of the service-catalog
 =================================================
 ```
 helm repo add svc-cat https://svc-catalog-charts.storage.googleapis.com
-helm install svc-cat/catalog \\n    --name catalog --namespace catalog
+helm install svc-cat/catalog --name catalog --namespace catalog
 ```
 
 Play with dummy broker
