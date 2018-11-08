@@ -62,17 +62,21 @@ subjects:
 
 ---
 apiVersion: v1
-kind: Pod
+kind: Job
 metadata:
   name: automation-broker-apb
   namespace: automation-broker-apb
 spec:
+  backoffLimit: 5
+  activeDeadlineSeconds: 300
   serviceAccount: automation-broker-apb
+  restartPolicy: OnFailure
   containers:
     - name: apb
       image: docker.io/automationbroker/automation-broker-apb:latest
       args:
         - "provision"
+        - "-e broker_name=automation-broker-apb"
         - "-e create_broker_namespace=true"
         - "-e broker_sandbox_role=admin"
         - "-e broker_dockerhub_tag=canary"
@@ -80,7 +84,6 @@ spec:
         - "-e broker_helm_url=https://kubernetes-charts.storage.googleapis.com"
         - "-e wait_for_broker=true"
       imagePullPolicy: IfNotPresent
-  restartPolicy: Never
 EOF
 ```
 
