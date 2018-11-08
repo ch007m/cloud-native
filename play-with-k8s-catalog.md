@@ -36,11 +36,20 @@ helm repo add svc-cat https://svc-catalog-charts.storage.googleapis.com
 helm install svc-cat/catalog --name catalog --namespace catalog
 ```
 
-Install AOB
+Install OAB
 ===========
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install.yml
 ```
 
-**REMARK** : OAB is configured to use import Helm's charts from `https://kubernetes-charts.storage.googleapis.com`
+**REMARK** : OAB can also be configured to contain the Helm's charts imported from `https://kubernetes-charts.storage.googleapis.com`. Then, install it using this command
+`kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install-helm.yml`
+
+Cleanup
+=======
+
+```bash
+kubectl delete namespace/automation-broker-apb
+kubectl delete clusterrolebinding.rbac.authorization.k8s.io/automation-broker-apb
+```
