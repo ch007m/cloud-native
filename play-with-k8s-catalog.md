@@ -11,6 +11,15 @@ Start minikube
 ==============
 ```
 minikube start --memory 4056 --kubernetes-version v1.11.0 --vm-driver xhyve
+
+or 
+
+minikube config set vm-driver hyperkit
+minikube config set WantReportError true
+minikube config set cpus 4
+minikube config set kubernetes-version v1.11.0
+minikube config set memory 5000
+minikube start
 ```
 
 Install helm's Tiller on k8s
