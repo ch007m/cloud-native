@@ -30,73 +30,7 @@ Install AOB
 ===========
 
 ```
-cat <<EOF | kubectl create -f -
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: automation-broker-apb
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: automation-broker-apb
-  namespace: automation-broker-apb
-
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: automation-broker-apb
-roleRef:
-  name: cluster-admin
-  kind: ClusterRole
-  apiGroup: rbac.authorization.k8s.io
-subjects:
-- kind: ServiceAccount
-  name: automation-broker-apb
-  namespace: automation-broker-apb
-
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: automation-broker
-roleRef:
-  name: cluster-admin
-  kind: ClusterRole
-  apiGroup: rbac.authorization.k8s.io
-subjects:
-- kind: ServiceAccount
-  name: automation-broker
-  namespace: automation-broker
-
----
-apiVersion: v1
-kind: Job
-metadata:
-  name: automation-broker-apb
-  namespace: automation-broker-apb
-spec:
-  backoffLimit: 5
-  activeDeadlineSeconds: 300
-  serviceAccount: automation-broker-apb
-  restartPolicy: OnFailure
-  containers:
-    - name: apb
-      image: docker.io/automationbroker/automation-broker-apb:latest
-      args:
-        - "provision"
-        - "-e broker_name=automation-broker-apb"
-        - "-e create_broker_namespace=true"
-        - "-e broker_sandbox_role=admin"
-        - "-e broker_dockerhub_tag=canary"
-        - "-e broker_helm_enabled=true"
-        - "-e broker_helm_url=https://kubernetes-charts.storage.googleapis.com"
-        - "-e wait_for_broker=true"
-      imagePullPolicy: IfNotPresent
-EOF
+kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install.yml
 ```
 
 Play with dummy broker
