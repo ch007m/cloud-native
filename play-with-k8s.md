@@ -45,8 +45,6 @@ metadata:
   namespace: automation-broker-apb
 
 ---
-# Since the Broker APB will create CRDs and other privileged
-# k8s objects, we need elevated permissions
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
@@ -59,6 +57,20 @@ subjects:
 - kind: ServiceAccount
   name: automation-broker-apb
   namespace: automation-broker-apb
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: automation-broker
+roleRef:
+  name: cluster-admin
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: automation-broker
+  namespace: automation-broker
 
 ---
 apiVersion: v1
