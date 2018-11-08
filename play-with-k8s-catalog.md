@@ -10,7 +10,7 @@ brew install kubernetes-helm
 Start minikube
 ==============
 ```
-minikube start --memory 4056 --kubernetes-version v1.11.0 --vm-driver hyperkit | xhyve
+minikube start --memory 4056 --kubernetes-version v1.11.0 --vm-driver xhyve
 ```
 
 Install helm's Tiller on k8s
@@ -33,3 +33,5 @@ Install AOB
 ```
 kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install.yml
 ```
+
+**REMARK** : OAB is configured to use import Helm's charts from `https://kubernetes-charts.storage.googleapis.com`
