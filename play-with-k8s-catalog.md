@@ -40,7 +40,7 @@ Use OpenShift console
 =====================
 
 ```bash
-cd /Users/dabou/Code/go-workspace/src/github.com/openshift/console
+cd $GOPATH/src/github.com/openshift/console
 ./build.sh 
 
 export KUBECONFIG=$HOME/.kube/config
