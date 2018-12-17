@@ -14,12 +14,28 @@ minikube start --memory 5000 --kubernetes-version v1.13.0 --vm-driver xhyve
 
 or 
 
-minikube config set vm-driver hyperkit
+minikube config set vm-driver virtualbox
 minikube config set WantReportError true
 minikube config set cpus 4
 minikube config set kubernetes-version v1.13.0
 minikube config set memory 5000
 minikube start
+```
+
+Using microk8s
+==============
+```bash
+export VM_NAME=microk8s
+multipass launch --name $VM_NAME --mem 4G --disk 40G
+multipass list
+multipass exec $VM_NAME -- sudo snap install microk8s --classic
+multipass exec $VM_NAME -- sudo iptables -P FORWARD ACCEPT
+multipass exec $VM_NAME -- /snap/bin/microk8s.enable dns dashboard ingress
+multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl cluster-info
+multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl config view --raw > $HOME/.kube/config
+export IP=$(multipass info $VM_NAME --format json  | jq -r .info.microk8s.ipv4[0])
+sed -i'.bk' -e "s/127.0.0.1/$IP/g" $HOME/.kube/config
+# TODO : Check if this command is needed -> multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl proxy --accept-hosts=.* --address=0.0.0.0
 ```
 
 Check 
@@ -84,6 +100,19 @@ see: https://kubernetes.io/docs/tasks/access-application-cluster/configure-acces
 
 kubectl config set-context component-operator --cluster=minikube --namespace=component-operator --user=minikube
 kubectl config set-context my-spring-app --cluster=minikube --namespace=my-spring-app --user=minikube
+
+Using microk8s
+kubectl config set-context component-operator --cluster=microk8s-cluster --namespace=component-operator --user=admin
+kubectl config set-context my-spring-app  --cluster=microk8s-cluster --namespace=my-spring-app --user=admin
+
+```
+
+Install Ingress NGinx router (only needed for minikube)
+============================
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
+minikube addons enable ingress
+kubectl get pods --all-namespaces -l app=ingress-nginx
 ```
 
 Install Operator
@@ -104,7 +133,6 @@ Play with Component CRD
 kubectl config use-context my-spring-app
 export demo=/Users/dabou/Code/snowdrop/component-operator-demo
 kubectl apply -f $demo/fruit-backend-sb/target/classes/META-INF/ap4k/component.yml
-
 ```
 
 Cleanup
