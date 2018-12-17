@@ -26,9 +26,9 @@ Using microk8s
 ==============
 ```bash
 export VM_NAME=microk8s
-multipass launch --name $VM_NAME --mem 4G --disk 40G
+multipass launch --name $VM_NAME --cpus 4 --mem 4G --disk 40G
 multipass list
-multipass exec $VM_NAME -- sudo snap install microk8s --classic
+multipass exec $VM_NAME -- sudo snap install microk8s --classic --channel=1.13/stable
 multipass exec $VM_NAME -- sudo iptables -P FORWARD ACCEPT
 multipass exec $VM_NAME -- /snap/bin/microk8s.enable dns dashboard ingress
 multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl cluster-info
