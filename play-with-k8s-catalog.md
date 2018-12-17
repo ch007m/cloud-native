@@ -27,11 +27,14 @@ Using microk8s
 ```bash
 export VM_NAME=microk8s
 multipass launch --name $VM_NAME --cpus 4 --mem 4G --disk 40G
-multipass list
 multipass exec $VM_NAME -- sudo snap install microk8s --classic --channel=1.13/stable
+multipass exec $VM_NAME -- /snap/bin/microk8s.enable dns ingress
+# My pods can’t reach the internet (but my MicroK8s host machine can).
 multipass exec $VM_NAME -- sudo iptables -P FORWARD ACCEPT
-multipass exec $VM_NAME -- /snap/bin/microk8s.enable dns dashboard ingress
-multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl cluster-info
+multipass exec $VM_NAME -- sudo ufw default allow routed
+# My dns and dashboard pods are CrashLooping.
+multipass exec $VM_NAME -- sudo ufw allow in on cbr0 
+multipass exec $VM_NAME -- sudo ufw allow out on cbr0
 multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl config view --raw > $HOME/.kube/config
 export IP=$(multipass info $VM_NAME --format json  | jq -r .info.microk8s.ipv4[0])
 sed -i'.bk' -e "s/127.0.0.1/$IP/g" $HOME/.kube/config
@@ -88,23 +91,22 @@ kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/maste
 **REMARK** : OAB can also be configured to contain the Helm's charts imported from `https://kubernetes-charts.storage.googleapis.com`. Then, install it using this command
 `kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install-helm.yml`
 
-Create Project and multiple contexts
+Create namespaces and kube's contexts
 ====================================
 ```bash
+see: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+# Using minikube
+# kubectl config set-cluster minikube --server=https://192.168.65.38:8443
 kubectl create namespace my-spring-app
 kubectl create namespace component-operator
-
-# kubectl config set-cluster minikube --server=https://192.168.65.38:8443
-
-see: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
-
 kubectl config set-context component-operator --cluster=minikube --namespace=component-operator --user=minikube
 kubectl config set-context my-spring-app --cluster=minikube --namespace=my-spring-app --user=minikube
 
-Using microk8s
+# Using microk8s
+kubectl create namespace my-spring-app
+kubectl create namespace component-operator
 kubectl config set-context component-operator --cluster=microk8s-cluster --namespace=component-operator --user=admin
 kubectl config set-context my-spring-app  --cluster=microk8s-cluster --namespace=my-spring-app --user=admin
-
 ```
 
 Install Ingress NGinx router (only needed for minikube)

@@ -40,7 +40,7 @@ spec:
         serviceAccount: automation-broker-apb
         containers:
         - name: apb
-          image: docker.io/automationbroker/automation-broker-apb:latest
+          image: docker.io/automationbroker/automation-broker-apb:ansible-service-broker-1.4.3-1
           args:
           - "provision"
           - "-e broker_name=automation-broker-apb"
