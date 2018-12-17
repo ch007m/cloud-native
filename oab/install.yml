@@ -40,7 +40,7 @@ spec:
         serviceAccount: automation-broker-apb
         containers:
         - name: apb
-          image: docker.io/automationbroker/automation-broker-apb:canary
+          image: docker.io/automationbroker/automation-broker-apb:latest
           args:
           - "provision"
           - "-e broker_name=automation-broker-apb"
