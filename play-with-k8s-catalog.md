@@ -19,7 +19,16 @@ minikube config set WantReportError true
 minikube config set cpus 4
 minikube config set kubernetes-version v1.13.0
 minikube config set memory 5000
+minikube addons enable ingress
 minikube start
+```
+
+Issue with minikube 0.31.0
+==========================
+```bash
+# See : https://github.com/kubernetes/minikube/issues/3455
+# See : https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/
+scp -i $(minikube ssh-key) ./minikube/bootstrap-kubelet.conf docker@$(minikube ip):/etc/kubernetes/bootstrap-kubelet.conf
 ```
 
 Using microk8s
@@ -112,9 +121,8 @@ kubectl config set-context my-spring-app  --cluster=microk8s-cluster --namespace
 Install Ingress NGinx router (only needed for minikube)
 ============================
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
+#kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
 minikube addons enable ingress
-kubectl get pods --all-namespaces -l app=ingress-nginx
 ```
 
 Install Operator
