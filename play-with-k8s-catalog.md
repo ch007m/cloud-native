@@ -1,4 +1,4 @@
-# Install k8s tools
+# Install k8s tools on Macos
 
 ```
 brew update
@@ -8,7 +8,7 @@ brew install kubernetes-service-catalog-client
 brew install kubernetes-helm
 ```
 
-## Start minikube
+## Start minikube with k8s 1.13
 
 ```
 minikube start --memory 5000 --kubernetes-version v1.13.0 --vm-driver xhyve
@@ -151,15 +151,19 @@ kubectl apply -f fruit-backend-sb/target/classes/META-INF/ap4k/component.yml
 kubectl apply -f fruit-client-sb/target/classes/META-INF/ap4k/component.yml
 
 # Access shell of the backend pod to display the env vars
-export pod_name=$(kubectl get pod -lapp=fruit-backend-sb -o name -n my-spring-app)
-export pod_id=${pod_name#"pod/"}
-kubectl exec ${pod_id} -n my-spring-app env | grep DB
+./k8s_cmd.sh fruit-backend-sb env | grep DB
 
 ./k8s_push_start.sh fruit-backend sb
 ./k8s_push_start.sh fruit-client sb
 
-kubectl logs -n my-spring-app ${pod_id}
+# look if the app jar has been upload
+ ./k8s_cmd.sh fruit-backend-sb 'ls /deployments'
 
+# Check the logs
+./k8s_logs.sh fruit-backend-sb my-spring-app
+./k8s_logs.sh fruit-client-sb 
+
+# Call the Rest endpoints (client or fruits)
 curl  --resolve fruit-client-sb:80:192.168.65.42 -k http://fruit-client-sb/api/client 
 curl  --resolve fruit-backend-sb:80:192.168.65.42 -k http://fruit-backend-sb/api/fruits 
 
