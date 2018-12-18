@@ -43,7 +43,7 @@ spec:
           image: docker.io/automationbroker/automation-broker-apb:latest
           args:
           - "provision"
-          - "-e broker_name=automation-broker-apb"
           - "-e create_broker_namespace=true"
+          - "-e broker_auto_escalate=true"
           - "-e wait_for_broker=true"
           imagePullPolicy: IfNotPresent
