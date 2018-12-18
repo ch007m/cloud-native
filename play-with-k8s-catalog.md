@@ -122,7 +122,7 @@ helm install svc-cat/catalog --name catalog --namespace catalog
 # Install OAB
 
 ```
-curl https://raw.githubusercontent.com/openshift/ansible-service-broker/master/apb/install.yaml | kubectl create -f -
+curl https://raw.githubusercontent.com/openshift/ansible-service-broker/master/ansible_role/apb/install.yaml | kubectl create -f -
 ```
 
 **WARNING** : Change within the `configMap`, the field `auto_escalate` to true otherwise, the Broker's pod will report this error `Unable to retrieve cluster roles rules from cluster`
@@ -146,9 +146,11 @@ kubectl create -f $operator_project/deploy/operator.yaml
 
 ```bash
 kubectl config use-context my-spring-app
-export demo=/Users/dabou/Code/snowdrop/component-operator-demo
-kubectl apply -f $demo/fruit-backend-sb/target/classes/META-INF/ap4k/component.yml
-kubectl apply -f $demo/fruit-client-sb/target/classes/META-INF/ap4k/component.yml
+cd /Users/dabou/Code/snowdrop/component-operator-demo
+kubectl apply -f fruit-backend-sb/target/classes/META-INF/ap4k/component.yml
+kubectl apply -f fruit-client-sb/target/classes/META-INF/ap4k/component.yml
+./k8s_push_start.sh fruit-backend sb
+cd /Users/dabou/MyProjects/cloud-native
 ```
 
 # Cleanup
