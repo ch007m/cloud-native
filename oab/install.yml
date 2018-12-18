@@ -1,3 +1,4 @@
+# Change within the `configMap` of the Broker, the field `auto_escalate` to true otherwise, the Broker's pod will report this error `Unable to retrieve cluster roles rules from cluster`
 ---
 apiVersion: v1
 kind: Namespace

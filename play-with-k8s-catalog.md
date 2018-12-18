@@ -122,10 +122,8 @@ helm install svc-cat/catalog --name catalog --namespace catalog
 # Install OAB
 
 ```
-curl https://raw.githubusercontent.com/openshift/ansible-service-broker/master/ansible_role/apb/install.yaml | kubectl create -f -
+kubectl -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install.yml
 ```
-
-**WARNING** : Change within the `configMap`, the field `auto_escalate` to true otherwise, the Broker's pod will report this error `Unable to retrieve cluster roles rules from cluster`
 
 **REMARK** : OAB can also be configured to contain the Helm's charts imported from `https://kubernetes-charts.storage.googleapis.com`. Then, install it using this command
 `kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install-helm.yml`
