@@ -150,6 +150,11 @@ cd /Users/dabou/Code/snowdrop/component-operator-demo
 kubectl apply -f fruit-backend-sb/target/classes/META-INF/ap4k/component.yml
 kubectl apply -f fruit-client-sb/target/classes/META-INF/ap4k/component.yml
 ./k8s_push_start.sh fruit-backend sb
+./k8s_push_start.sh fruit-client sb
+
+curl  --resolve fruit-client-sb:80:192.168.65.42 -k http://fruit-client-sb/api/client 
+curl  --resolve fruit-backend-sb:80:192.168.65.42 -k http://fruit-backend-sb/api/fruits 
+
 cd /Users/dabou/MyProjects/cloud-native
 ```
 
