@@ -80,7 +80,6 @@ kubectl apply -f microk8s/pv002.yml
 kubectl apply -f microk8s/pv003.yml
 kubectl apply -f microk8s/pv004.yml
 kubectl apply -f microk8s/pv005.yml
-
 ```
 
 # Verify if the cluster is working correctly  
@@ -131,7 +130,7 @@ curl https://raw.githubusercontent.com/openshift/ansible-service-broker/master/a
 **REMARK** : OAB can also be configured to contain the Helm's charts imported from `https://kubernetes-charts.storage.googleapis.com`. Then, install it using this command
 `kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install-helm.yml`
 
-# Install Operator
+# Install The Component Operator
 
 ```bash
 kubectl config use-context component-operator
@@ -149,6 +148,7 @@ kubectl create -f $operator_project/deploy/operator.yaml
 kubectl config use-context my-spring-app
 export demo=/Users/dabou/Code/snowdrop/component-operator-demo
 kubectl apply -f $demo/fruit-backend-sb/target/classes/META-INF/ap4k/component.yml
+kubectl apply -f $demo/fruit-client-sb/target/classes/META-INF/ap4k/component.yml
 ```
 
 # Cleanup
