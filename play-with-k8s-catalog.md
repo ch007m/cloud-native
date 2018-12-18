@@ -50,17 +50,35 @@ scp -i $(minikube ssh-key) ./minikube/bootstrap-kubelet.conf docker@$(minikube i
 export VM_NAME=microk8s
 multipass launch --name $VM_NAME --cpus 4 --mem 4G --disk 40G
 multipass exec $VM_NAME -- sudo snap install microk8s --classic --channel=1.13/stable
+
+# Install the needed addons
 multipass exec $VM_NAME -- /snap/bin/microk8s.enable dns ingress storage
+
 # My pods can’t reach the internet (but my MicroK8s host machine can).
 multipass exec $VM_NAME -- sudo iptables -P FORWARD ACCEPT
 multipass exec $VM_NAME -- sudo ufw default allow routed
+
 # My dns and dashboard pods are CrashLooping.
 multipass exec $VM_NAME -- sudo ufw allow in on cbr0 
 multipass exec $VM_NAME -- sudo ufw allow out on cbr0
+
+# Grab the IP address of the VM and change it within the k8s config file to allow kubectl to access it
 multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl config view --raw > $HOME/.kube/config
+
 export IP=$(multipass info $VM_NAME --format json  | jq -r .info.microk8s.ipv4[0])
 sed -i'.bk' -e "s/127.0.0.1/$IP/g" $HOME/.kube/config
 # TODO : Check if this command is needed -> multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl proxy --accept-hosts=.* --address=0.0.0.0
+```
+
+# Verify if the cluster is working correctly  
+
+Check that kubectl is properly configured by getting the cluster state:
+```bash
+kubectl cluster-info
+Kubernetes master is running at https://192.168.65.37:8443
+KubeDNS is running at https://192.168.65.37:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
 
 ## Create namespaces and kube's contexts
@@ -80,17 +98,6 @@ kubectl apply -f microk8s/pv002.yml
 kubectl apply -f microk8s/pv003.yml
 kubectl apply -f microk8s/pv004.yml
 kubectl apply -f microk8s/pv005.yml
-```
-
-# Verify if the cluster is working correctly  
-
-Check that kubectl is properly configured by getting the cluster state:
-```bash
-kubectl cluster-info
-Kubernetes master is running at https://192.168.65.37:8443
-KubeDNS is running at https://192.168.65.37:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-
-To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
 
 See this page's doc for more info : https://kubernetes.io/docs/tasks/tools/install-kubectl/#check-the-kubectl-configuration
@@ -122,7 +129,7 @@ helm install svc-cat/catalog --name catalog --namespace catalog
 # Install OAB
 
 ```
-kubectl -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install.yml
+kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install.yml
 ```
 
 **REMARK** : OAB can also be configured to contain the Helm's charts imported from `https://kubernetes-charts.storage.googleapis.com`. Then, install it using this command
@@ -158,7 +165,16 @@ cd /Users/dabou/MyProjects/cloud-native
 
 # Cleanup
 
+- Delete ASB
+
 ```bash
 kubectl delete namespace/automation-broker-apb
 kubectl delete clusterrolebinding.rbac.authorization.k8s.io/automation-broker-apb
 ```
+
+- Stop, delete `microk8s`
+```bash
+multipass delete microk8s
+multipass purge  
+```
+
