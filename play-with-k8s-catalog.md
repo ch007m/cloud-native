@@ -54,20 +54,14 @@ multipass exec $VM_NAME -- sudo snap install microk8s --classic --channel=1.13/s
 # Install the needed addons
 multipass exec $VM_NAME -- /snap/bin/microk8s.enable dns ingress storage
 
-# My pods can’t reach the internet (but my MicroK8s host machine can).
+# Forward IP traffic
 multipass exec $VM_NAME -- sudo iptables -P FORWARD ACCEPT
-multipass exec $VM_NAME -- sudo ufw default allow routed
-
-# My dns and dashboard pods are CrashLooping.
-multipass exec $VM_NAME -- sudo ufw allow in on cbr0 
-multipass exec $VM_NAME -- sudo ufw allow out on cbr0
 
 # Grab the IP address of the VM and change it within the k8s config file to allow kubectl to access it
 multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl config view --raw > $HOME/.kube/config
 
 export IP=$(multipass info $VM_NAME --format json  | jq -r .info.microk8s.ipv4[0])
 sed -i'.bk' -e "s/127.0.0.1/$IP/g" $HOME/.kube/config
-# TODO : Check if this command is needed -> multipass exec $VM_NAME -- /snap/bin/microk8s.kubectl proxy --accept-hosts=.* --address=0.0.0.0
 ```
 
 # Verify if the cluster is working correctly  
@@ -151,11 +145,20 @@ kubectl create -f $operator_project/deploy/operator.yaml
 
 ```bash
 kubectl config use-context my-spring-app
+
 cd /Users/dabou/Code/snowdrop/component-operator-demo
 kubectl apply -f fruit-backend-sb/target/classes/META-INF/ap4k/component.yml
 kubectl apply -f fruit-client-sb/target/classes/META-INF/ap4k/component.yml
+
+# Access shell of the backend pod to display the env vars
+export pod_name=$(kubectl get pod -lapp=fruit-backend-sb -o name -n my-spring-app)
+export pod_id=${pod_name#"pod/"}
+kubectl exec ${pod_id} -n my-spring-app env | grep DB
+
 ./k8s_push_start.sh fruit-backend sb
 ./k8s_push_start.sh fruit-client sb
+
+kubectl logs -n my-spring-app ${pod_id}
 
 curl  --resolve fruit-client-sb:80:192.168.65.42 -k http://fruit-client-sb/api/client 
 curl  --resolve fruit-backend-sb:80:192.168.65.42 -k http://fruit-backend-sb/api/fruits 
