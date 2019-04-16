@@ -123,11 +123,11 @@ helm install svc-cat/catalog --name catalog --namespace catalog
 # Install OAB
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install.yml
+kubectl apply -f https://raw.githubusercontent.com/ch007m/cloud-native/master/oab/install.yml
 ```
 
 **REMARK** : OAB can also be configured to contain the Helm's charts imported from `https://kubernetes-charts.storage.googleapis.com`. Then, install it using this command
-`kubectl apply -f https://raw.githubusercontent.com/cmoulliard/cloud-native/master/oab/install-helm.yml`
+`kubectl apply -f https://raw.githubusercontent.com/ch007m/cloud-native/master/oab/install-helm.yml`
 
 # Install The Component Operator
 
